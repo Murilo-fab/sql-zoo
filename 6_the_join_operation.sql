@@ -115,3 +115,20 @@ SELECT mdate,
   SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
   FROM game LEFT JOIN goal ON matchid = id
 GROUP BY mdate, matchid, team1, team2
+
+-- 14. released in the year 1978
+-- List the films released in the year 1978 ordered by the number of actors in the cast, then by title.
+
+SELECT title, count (actorid)
+FROM movie JOIN casting ON (movieid = movie.id)
+WHERE yr = 1978
+GROUP BY title
+ORDER BY count(actorid) DESC, title ASC
+
+-- 15. with 'Art Garfunkel'
+-- List all the people who have worked with 'Art Garfunkel'.
+
+SELECT name
+FROM actor JOIN casting ON (actorid = actor.id)
+WHERE movieid IN (SELECT movieid FROM actor JOIN casting ON (actorid = actor.id) WHERE name = 'Art Garfunkel') AND name != 'Art Garfunkel'
+ORDER BY name
